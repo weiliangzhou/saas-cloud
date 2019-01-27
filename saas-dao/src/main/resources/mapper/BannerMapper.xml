@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.saasdao.mapper.BannerMapper" >
+  <resultMap id="BaseResultMap" type="com.wegoo.model.po.Banner" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="href_url" property="hrefUrl" jdbcType="VARCHAR" />
+    <result column="href_type" property="hrefType" jdbcType="INTEGER" />
+    <result column="theme" property="theme" jdbcType="VARCHAR" />
+    <result column="queue_number" property="queueNumber" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="available" property="available" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+    <result column="is_show" property="isShow" jdbcType="INTEGER" />
+    <result column="port_type" property="portType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, image_url, href_url, href_type, theme, queue_number, description, create_time, 
+    modify_time, available, merchant_id, is_show, port_type
+  </sql>
+  <select id="getBannerList" parameterType="com.wegoo.model.po.Banner" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_banner
+    where available=1
+    and merchant_id = #{merchantId}
+    and is_show = 1
+    and port_type = #{portType}
+    order by queue_number asc,modify_time desc
+  </select>
+</mapper>

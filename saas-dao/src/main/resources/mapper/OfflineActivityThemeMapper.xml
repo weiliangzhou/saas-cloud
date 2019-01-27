@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.saasdao.mapper.OfflineActivityThemeMapper">
+    <resultMap id="BaseResultMap" type="com.wegoo.model.po.OfflineActivityTheme">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="theme_name" property="themeName" jdbcType="VARCHAR"/>
+        <result column="theme_href_url" property="themeHrefUrl" jdbcType="VARCHAR"/>
+        <result column="theme_type" property="themeType" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="content_text" property="contentText" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="INTEGER"/>
+        <result column="limit_count" property="limitCount" jdbcType="INTEGER"/>
+        <result column="buy_count" property="buyCount" jdbcType="INTEGER"/>
+        <result column="is_recommend" property="isRecommend" jdbcType="INTEGER"/>
+        <result column="is_show" property="isShow" jdbcType="INTEGER"/>
+        <result column="activity_time" property="activityTime" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="available" property="available" jdbcType="INTEGER"/>
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR"/>
+        <result column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
+        <result column="qr_bg_img" property="qrBgImg" jdbcType="VARCHAR"/>
+        <result column="real_name_show" property="realNameShow" jdbcType="INTEGER"/>
+        <result column="phone_show" property="phoneShow" jdbcType="INTEGER"/>
+        <result column="pp_show" property="ppShow" jdbcType="INTEGER"/>
+        <result column="zy_show" property="zyShow" jdbcType="INTEGER"/>
+        <result column="id_card_num_show" property="idCardNumShow" jdbcType="INTEGER"/>
+        <result column="address_show" property="addressShow" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, theme_name, theme_href_url, theme_type, content, content_text, buy_count, is_recommend,
+    is_show, activity_time, create_time, modify_time,price,limit_count ,available, merchant_id,img_url,qr_bg_img,
+    real_name_show,
+    phone_show,
+    pp_show	,
+    zy_show		,
+    id_card_num_show	,
+    address_show
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_theme
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getOfflineActivityThemeListByQueryType" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_theme
+        where merchant_id = #{merchantId,jdbcType=VARCHAR}
+        and is_show=1
+        and available= 1
+        <if test="queryType ==0">
+            and is_recommend =1
+        </if>
+    </select>
+    <select id="getOfflineActivityThemeDetailByThemeId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_theme
+        where merchant_id = #{merchantId,jdbcType=VARCHAR}
+        and available= 1
+        and id= #{themeId,jdbcType=INTEGER}
+    </select>
+
+
+</mapper>

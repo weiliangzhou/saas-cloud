@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.dao.mapper.ActivateInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.wegoo.model.po.ActivateInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="theme_id" property="themeId" jdbcType="INTEGER" />
+    <result column="theme_name" property="themeName" jdbcType="VARCHAR" />
+    <result column="theme_price" property="themePrice" jdbcType="INTEGER" />
+    <result column="referrer" property="referrer" jdbcType="VARCHAR" />
+    <result column="referre_name" property="referreName" jdbcType="VARCHAR" />
+    <result column="referrer_phone" property="referrerPhone" jdbcType="VARCHAR" />
+    <result column="activity_id" property="activityId" jdbcType="INTEGER" />
+    <result column="is_used" property="isUsed" jdbcType="INTEGER" />
+    <result column="qr_code_url" property="qrCodeUrl" jdbcType="VARCHAR" />
+    <result column="send_msg" property="sendMsg" jdbcType="INTEGER" />
+    <result column="activity_code" property="activityCode" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, merchant_id, phone, real_name, theme_id, theme_name, theme_price, referrer, referre_name, 
+    referrer_phone, activity_id, is_used, qr_code_url, send_msg, activity_code, remark, 
+    create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from saas_activate_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from saas_activate_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wegoo.model.po.ActivateInfo" >
+    insert into saas_activate_info (id, merchant_id, phone, 
+      real_name, theme_id, theme_name, 
+      theme_price, referrer, referre_name, 
+      referrer_phone, activity_id, is_used, 
+      qr_code_url, send_msg, activity_code, 
+      remark, create_time)
+    values (#{id,jdbcType=INTEGER}, #{merchantId,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{realName,jdbcType=VARCHAR}, #{themeId,jdbcType=INTEGER}, #{themeName,jdbcType=VARCHAR}, 
+      #{themePrice,jdbcType=INTEGER}, #{referrer,jdbcType=VARCHAR}, #{referreName,jdbcType=VARCHAR}, 
+      #{referrerPhone,jdbcType=VARCHAR}, #{activityId,jdbcType=INTEGER}, #{isUsed,jdbcType=INTEGER}, 
+      #{qrCodeUrl,jdbcType=VARCHAR}, #{sendMsg,jdbcType=INTEGER}, #{activityCode,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wegoo.model.po.ActivateInfo" >
+    insert into saas_activate_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="merchantId != null" >
+        merchant_id,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="realName != null" >
+        real_name,
+      </if>
+      <if test="themeId != null" >
+        theme_id,
+      </if>
+      <if test="themeName != null" >
+        theme_name,
+      </if>
+      <if test="themePrice != null" >
+        theme_price,
+      </if>
+      <if test="referrer != null" >
+        referrer,
+      </if>
+      <if test="referreName != null" >
+        referre_name,
+      </if>
+      <if test="referrerPhone != null" >
+        referrer_phone,
+      </if>
+      <if test="activityId != null" >
+        activity_id,
+      </if>
+      <if test="isUsed != null" >
+        is_used,
+      </if>
+      <if test="qrCodeUrl != null" >
+        qr_code_url,
+      </if>
+      <if test="sendMsg != null" >
+        send_msg,
+      </if>
+      <if test="activityCode != null" >
+        activity_code,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="merchantId != null" >
+        #{merchantId,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="themeId != null" >
+        #{themeId,jdbcType=INTEGER},
+      </if>
+      <if test="themeName != null" >
+        #{themeName,jdbcType=VARCHAR},
+      </if>
+      <if test="themePrice != null" >
+        #{themePrice,jdbcType=INTEGER},
+      </if>
+      <if test="referrer != null" >
+        #{referrer,jdbcType=VARCHAR},
+      </if>
+      <if test="referreName != null" >
+        #{referreName,jdbcType=VARCHAR},
+      </if>
+      <if test="referrerPhone != null" >
+        #{referrerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="activityId != null" >
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="isUsed != null" >
+        #{isUsed,jdbcType=INTEGER},
+      </if>
+      <if test="qrCodeUrl != null" >
+        #{qrCodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sendMsg != null" >
+        #{sendMsg,jdbcType=INTEGER},
+      </if>
+      <if test="activityCode != null" >
+        #{activityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wegoo.model.po.ActivateInfo" >
+    update saas_activate_info
+    <set >
+      <if test="merchantId != null" >
+        merchant_id = #{merchantId,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="themeId != null" >
+        theme_id = #{themeId,jdbcType=INTEGER},
+      </if>
+      <if test="themeName != null" >
+        theme_name = #{themeName,jdbcType=VARCHAR},
+      </if>
+      <if test="themePrice != null" >
+        theme_price = #{themePrice,jdbcType=INTEGER},
+      </if>
+      <if test="referrer != null" >
+        referrer = #{referrer,jdbcType=VARCHAR},
+      </if>
+      <if test="referreName != null" >
+        referre_name = #{referreName,jdbcType=VARCHAR},
+      </if>
+      <if test="referrerPhone != null" >
+        referrer_phone = #{referrerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="activityId != null" >
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="isUsed != null" >
+        is_used = #{isUsed,jdbcType=INTEGER},
+      </if>
+      <if test="qrCodeUrl != null" >
+        qr_code_url = #{qrCodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sendMsg != null" >
+        send_msg = #{sendMsg,jdbcType=INTEGER},
+      </if>
+      <if test="activityCode != null" >
+        activity_code = #{activityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wegoo.model.po.ActivateInfo" >
+    update saas_activate_info
+    set merchant_id = #{merchantId,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      theme_id = #{themeId,jdbcType=INTEGER},
+      theme_name = #{themeName,jdbcType=VARCHAR},
+      theme_price = #{themePrice,jdbcType=INTEGER},
+      referrer = #{referrer,jdbcType=VARCHAR},
+      referre_name = #{referreName,jdbcType=VARCHAR},
+      referrer_phone = #{referrerPhone,jdbcType=VARCHAR},
+      activity_id = #{activityId,jdbcType=INTEGER},
+      is_used = #{isUsed,jdbcType=INTEGER},
+      qr_code_url = #{qrCodeUrl,jdbcType=VARCHAR},
+      send_msg = #{sendMsg,jdbcType=INTEGER},
+      activity_code = #{activityCode,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

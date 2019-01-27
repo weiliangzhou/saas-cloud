@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.saasdao.mapper.MemberMapper">
+    <resultMap id="BaseResultMap" type="com.wegoo.model.po.Certification">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="id_card_num" property="idCardNum" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="profession" property="profession" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="available" property="available" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, real_name,user_id, id_card_num, merchant_id, sex,
+        city,profession, create_time, modify_time, available
+    </sql>
+    <sql id="Insert_Column_List">
+        real_name,user_id, id_card_num, merchant_id, sex,
+        city,profession, create_time, modify_time, available
+    </sql>
+    <!--实名认证-->
+    <insert id="insert" parameterType="com.wegoo.model.po.Certification">
+        insert into saas_user_certification
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            create_time,
+            member_level,
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+
+            <if test="profession != null">
+                profession,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            available
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            now(),
+            2,
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            1
+        </trim>
+
+    </insert>
+
+</mapper>

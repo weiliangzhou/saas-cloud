@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.saasdao.mapper.ProductMapper">
+    <resultMap id="BaseResultMap" type="com.wegoo.model.po.Product">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="level_name" property="levelName" jdbcType="VARCHAR"/>
+        <result column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="maid_percent" property="maidPercent" jdbcType="INTEGER"/>
+        <result column="validity_time" property="validityTime" jdbcType="INTEGER"/>
+        <result column="price" property="price" jdbcType="INTEGER"/>
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR"/>
+        <result column="image_url" property="imageUrl" jdbcType="VARCHAR"/>
+        <result column="content" property="content"/>
+        <result column="content_text" property="contentText"/>
+        <result column="buy_count" property="buyCount" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="available" property="available" jdbcType="SMALLINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, `level`, level_name, product_name, maid_percent, validity_time, price, merchant_id,image_url,
+    content,content_text,buy_count,create_time, modify_time, available
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_product
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insertSelective" parameterType="com.wegoo.model.po.Product">
+        insert into saas_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="level != null">
+                `level`,
+            </if>
+            <if test="levelName != null">
+                level_name,
+            </if>
+            <if test="productName != null">
+                product_name,
+            </if>
+            <if test="maidPercent != null">
+                maid_percent,
+            </if>
+            <if test="validityTime != null">
+                validity_time,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+            <if test="imageUrl != null">
+                image_url,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="contentText != null">
+                content_text,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="available != null">
+                available,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=INTEGER},
+            </if>
+            <if test="levelName != null">
+                #{levelName,jdbcType=VARCHAR},
+            </if>
+            <if test="productName != null">
+                #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="maidPercent != null">
+                #{maidPercent,jdbcType=INTEGER},
+            </if>
+            <if test="validityTime != null">
+                #{validityTime,jdbcType=INTEGER},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=INTEGER},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="imageUrl != null">
+                #{imageUrl},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="contentText != null">
+                #{contentText},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="available != null">
+                #{available,jdbcType=SMALLINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wegoo.model.po.Product">
+        update saas_product
+        <set>
+            <if test="levelName != null">
+                level_name = #{levelName,jdbcType=VARCHAR},
+            </if>
+            <if test="productName != null">
+                product_name = #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="maidPercent != null">
+                maid_percent = #{maidPercent,jdbcType=INTEGER},
+            </if>
+            <if test="validityTime != null">
+                validity_time = #{validityTime,jdbcType=INTEGER},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=INTEGER},
+            </if>
+            <if test="merchantId != null">
+                merchant_id = #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="imageUrl != null">
+                image_url = #{imageUrl},
+            </if>
+            <if test="content != null">
+                content=#{content},
+            </if>
+            <if test="contentText != null">
+                content_text=#{contentText},
+            </if>
+            <if test="available != null">
+                available = #{available,jdbcType=SMALLINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="getProductList" resultMap="BaseResultMap" parameterType="string">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_product
+        where available=1
+        and merchant_id=#{merchantId}
+        and is_show=1
+        order by id
+    </select>
+    <select id="getAdminProductList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_product
+        where available=1
+    </select>
+
+    <select id="getProductByLevelAndMerchantId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_product
+        where available=1
+        <if test="level != null">
+            <![CDATA[ and level = #{level} ]]>
+        </if>
+        <if test="merchantId != null and merchantId != ''">
+            and merchant_id = #{merchantId}
+        </if>
+    </select>
+    <!--<select id="getProductByMemberLevel" resultMap="BaseResultMap" parameterType="Integer">-->
+    <!--select-->
+    <!--<include refid="Base_Column_List"/>-->
+    <!--from ss_product-->
+    <!--where available=1-->
+    <!--and `level`=#{memberLevel}-->
+    <!--and merchant_id=#{merchantId}-->
+    <!--</select>-->
+</mapper>

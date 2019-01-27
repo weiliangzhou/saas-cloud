@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.saasdao.mapper.OrderMapper">
+    <resultMap id="BaseResultMap" type="com.wegoo.model.po.Order">
+        <id column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="product_id" property="productId" jdbcType="BIGINT"/>
+        <result column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="actual_money" property="actualMoney" jdbcType="INTEGER"/>
+        <result column="money" property="money" jdbcType="INTEGER"/>
+        <result column="maid_percent" property="maidPercent" jdbcType="INTEGER"/>
+        <result column="pay_way" property="payWay" jdbcType="SMALLINT"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="level_name" property="levelName" jdbcType="VARCHAR"/>
+        <result column="validity_time" property="validityTime" jdbcType="INTEGER"/>
+        <result column="order_status" property="orderStatus" jdbcType="SMALLINT"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="payment_no" property="paymentNo" jdbcType="VARCHAR"/>
+        <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="referrer" property="referrer" jdbcType="VARCHAR"/>
+        <result column="referrer_name" property="referrerName" jdbcType="VARCHAR"/>
+        <result column="referrer_phone" property="referrerPhone" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="available" property="available" jdbcType="SMALLINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    order_no, product_id, product_name, actual_money, money, maid_percent, pay_way, level, 
+    level_name, validity_time, order_status, user_id, merchant_id,
+    phone,real_name,
+    payment_no,
+    payment_time,
+    address,referrer,referrer_name,referrer_phone,
+    create_time, modify_time, available
+  </sql>
+    <select id="getOrderByUserIdAndProductId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_order
+        where user_id = #{userId,jdbcType=VARCHAR}
+        and product_id = #{productId,jdbcType=BIGINT}
+        and merchant_id = #{merchantId,jdbcType=VARCHAR}
+        and order_status = 1
+        and available = 1
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_order
+        where order_no = #{orderNo,jdbcType=VARCHAR}
+    </select>
+    <insert id="insertSelective" parameterType="com.wegoo.model.po.Order">
+        insert into saas_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="productName != null">
+                product_name,
+            </if>
+            <if test="actualMoney != null">
+                actual_money,
+            </if>
+            <if test="money != null">
+                money,
+            </if>
+            <if test="maidPercent != null">
+                maid_percent,
+            </if>
+            <if test="payWay != null">
+                pay_way,
+            </if>
+            <if test="level != null">
+                level,
+            </if>
+            <if test="levelName != null">
+                level_name,
+            </if>
+            <if test="validityTime != null">
+                validity_time,
+            </if>
+            <if test="orderStatus != null">
+                order_status,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="paymentNo != null">
+                payment_no,
+            </if>
+            <if test="paymentTime != null">
+                payment_time,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="referrer != null">
+                referrer,
+            </if>
+            <if test="referrerName != null">
+                referrer_name,
+            </if>
+            <if test="referrerPhone != null">
+                referrer_phone,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="productId != null">
+                #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="productName != null">
+                #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="actualMoney != null">
+                #{actualMoney,jdbcType=INTEGER},
+            </if>
+            <if test="money != null">
+                #{money,jdbcType=INTEGER},
+            </if>
+            <if test="maidPercent != null">
+                #{maidPercent,jdbcType=INTEGER},
+            </if>
+            <if test="payWay != null">
+                #{payWay,jdbcType=SMALLINT},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=INTEGER},
+            </if>
+            <if test="levelName != null">
+                #{levelName,jdbcType=VARCHAR},
+            </if>
+            <if test="validityTime != null">
+                #{validityTime,jdbcType=INTEGER},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentNo != null">
+                #{paymentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentTime != null">
+                #{paymentTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                now(),
+            </if>
+            <if test="referrer != null">
+                #{referrer,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerName != null">
+                #{referrerName,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerPhone != null">
+                #{referrerPhone,jdbcType=VARCHAR},
+            </if>
+
+        </trim>
+
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wegoo.model.po.Order">
+        update saas_order
+        <set>
+            <if test="payWay != null">
+                pay_way = #{payWay,jdbcType=SMALLINT},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="paymentNo != null">
+                payment_no = #{paymentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentTime != null">
+                payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="referrer != null">
+                referrer = #{referrer,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerName != null">
+                referrer_name = #{referrerName,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerPhone != null">
+                referrer_phone = #{referrerPhone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where order_no = #{orderNo,jdbcType=VARCHAR}
+    </update>
+    <select id="getOrderList" resultMap="BaseResultMap" parameterType="com.wegoo.model.po.Order">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_order
+        where available=1
+        and merchant_id=#{merchantId}
+        <if test="phone!=null">
+            and phone like CONCAT('%',#{phone},'%')
+        </if>
+        <if test="realName!=null">
+            and real_name = #{realName}
+        </if>
+        <if test="orderStatus!=null">
+            and order_status = #{orderStatus}
+        </if>
+        <if test="userId!=null">
+            and user_id =#{userId}
+        </if>
+        <if test="referrer != null">
+            and referrer = #{referrer}
+        </if>
+        <if test="referrerName != null">
+            and referrer_name = #{referrerName}
+        </if>
+        <if test="referrerPhone != null">
+            and referrer_phone = #{referrerPhone}
+        </if>
+        <if test="activityStartTime != null">
+            <![CDATA[ and create_time >= #{activityStartTime}]]>
+        </if>
+        <if test="activityEndTime != null">
+            <![CDATA[ and create_time <= #{activityEndTime}]]>
+        </if>
+        order by create_time desc
+
+    </select>
+    <select id="findOrderByOrderNo" resultMap="BaseResultMap" parameterType="string">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_order
+        where available=1
+        and order_no=#{orderNo}
+    </select>
+    <select id="getOrderById" resultMap="BaseResultMap" parameterType="string">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_order
+        where available=1
+        and order_no=#{orderNo}
+        and merchant_id=#{merchantId}
+    </select>
+
+    <select id="getUserOrderCount" resultType="java.lang.Integer">
+        select count(1) from saas_order s
+        where s.user_id = #{userId}
+         and s.merchant_id = #{merchantId}
+         and s.order_status = 1
+    </select>
+
+    <select id="getUserBindOrderCount" resultType="java.lang.Integer">
+      select count(1) from saas_order s
+        where s.referrer = #{userId}
+         and s.merchant_id = #{merchantId}
+         and s.order_status = 1
+    </select>
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.saasdao.mapper.OfflineActivityCodeMapper">
+    <resultMap id="BaseResultMap" type="com.wegoo.model.po.OfflineActivityCode">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="activity_code" property="activityCode" jdbcType="VARCHAR"/>
+        <result column="is_used" property="isUsed" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="available" property="available" jdbcType="INTEGER"/>
+        <result column="activity_id" property="activityId" jdbcType="INTEGER"/>
+        <result column="qr_code_url" property="qrCodeUrl" jdbcType="VARCHAR"/>
+        <result column="activity_theme_id" property="activityThemeId" jdbcType="INTEGER"/>
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, activity_code, is_used, create_time, modify_time, available, activity_id,qr_code_url,activity_theme_id,merchant_id
+  </sql>
+    <select id="getOneByUserIdAndOfflineActivityId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_code
+        where user_id = #{userId}
+        and activity_id=#{offlineActivityId}
+    </select>
+    <select id="getOneByActivityCodeAndIsUsed" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_code
+        where activity_code=#{offlineActivityCode}
+        and is_used = #{isUsed}
+    </select>
+    <select id="getOneByActivityCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_code
+        where activity_code = #{activityCode}
+        and available=1
+    </select>
+    <insert id="insertSelective" parameterType="com.wegoo.model.po.OfflineActivityCode">
+        insert into saas_offline_activity_code
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="activityCode != null">
+                activity_code,
+            </if>
+            <if test="isUsed != null">
+                is_used,
+            </if>
+            <if test="activityThemeId != null">
+                activity_theme_id,
+            </if>
+            <if test="activityId != null">
+                activity_id,
+            </if>
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="available != null">
+                available,
+            </if>
+            <if test="qrCodeUrl != null">
+                qr_code_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="activityCode != null">
+                #{activityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isUsed != null">
+                #{isUsed,jdbcType=INTEGER},
+            </if>
+            <if test="activityThemeId != null">
+                #{activityThemeId,jdbcType=INTEGER},
+            </if>
+            <if test="activityId != null">
+                #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="available != null">
+                #{available,jdbcType=INTEGER},
+            </if>
+            <if test="qrCodeUrl != null">
+                #{qrCodeUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wegoo.model.po.OfflineActivityCode">
+        update saas_offline_activity_code
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="activityCode != null">
+                activity_code = #{activityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isUsed != null">
+                is_used = #{isUsed,jdbcType=INTEGER},
+            </if>
+            <if test="activityThemeId != null">
+                activity_theme_id = #{activityThemeId,jdbcType=INTEGER},
+            </if>
+            <if test="activityId != null">
+                activity_id = #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="merchantId != null">
+                merchant_id = #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="available != null">
+                available = #{available,jdbcType=INTEGER},
+            </if>
+            <if test="qrCodeUrl != null">
+                qr_code_url = #{qrCodeUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateOfflineActivityCodeActivityId">
+         update saas_offline_activity_code s set s.activity_id = #{activityId}
+         where s.activity_code = #{activityCode}
+    </update>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wegoo.saasdao.mapper.ClassInfoStatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.wegoo.model.po.ClassInfoStatistics">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="class_info_id" jdbcType="BIGINT" property="classInfoId" />
+    <result column="listen_count" jdbcType="BIGINT" property="listenCount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="available" jdbcType="INTEGER" property="available" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, class_info_id, listen_count, create_time, modify_time, available
+  </sql>
+  <!--新增-->
+  <insert id="insert" parameterType="com.wegoo.model.po.ClassInfoStatistics">
+    insert into saas_class_info_statistics ( class_info_id, listen_count,
+      create_time, modify_time, available
+      )
+    values ( #{classInfoId,jdbcType=BIGINT}, #{listenCount,jdbcType=BIGINT},
+      now(), now(),1
+      )
+  </insert>
+  <!--根据节课程id查找-->
+  <select id="selectByClassInfoId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_class_info_statistics
+    where class_info_id = #{classInfoId,jdbcType=BIGINT}
+  </select>
+  <!--浏览人数+1-->
+  <update id="setpAddBrowseCount" parameterType="com.wegoo.model.po.ClassInfoStatistics">
+    update
+      saas_class_info_statistics
+    set
+      listen_count = listen_count + '1'
+    where class_info_id = #{classInfoId,jdbcType=BIGINT}
+  </update>
+
+</mapper>

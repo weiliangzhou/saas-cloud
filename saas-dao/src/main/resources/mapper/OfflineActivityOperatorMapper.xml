@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.saasdao.mapper.OfflineActivityOperatorMapper">
+    <resultMap id="BaseResultMap" type="com.wegoo.model.po.OfflineActivityOperator">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="operator" property="operator" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="activity_theme_id" property="activityThemeId" jdbcType="INTEGER"/>
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="available" property="available" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, operator, password, activity_theme_id, merchant_id, create_time, modify_time, 
+    available
+  </sql>
+    <select id="selectByOperatorAndPassword" resultMap="BaseResultMap"
+            parameterType="com.wegoo.model.po.OfflineActivityOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_operator
+        where operator = #{operator}
+        and password = #{password}
+        and merchant_id = #{merchantId}
+        and available = #{available}
+    </select>
+    <select id="getOneByOperator" resultMap="BaseResultMap" parameterType="String">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_operator
+        where operator = #{operator}
+        and merchant_id = #{merchantId}
+        and available = 1
+    </select>
+
+</mapper>

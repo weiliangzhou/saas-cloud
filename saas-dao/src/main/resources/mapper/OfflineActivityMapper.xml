@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.saasdao.mapper.OfflineActivityMapper">
+    <resultMap id="BaseResultMap" type="com.wegoo.model.po.OfflineActivity">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="activity_address" property="activityAddress" jdbcType="VARCHAR"/>
+        <result column="activity_start_time" property="activityStartTime" jdbcType="TIMESTAMP"/>
+        <result column="activity_end_time" property="activityEndTime" jdbcType="TIMESTAMP"/>
+        <result column="activity_price" property="activityPrice" jdbcType="INTEGER"/>
+        <result column="is_retraining" property="isRetraining" jdbcType="INTEGER"/>
+        <result column="activity_theme_id" property="activityThemeId" jdbcType="INTEGER"/>
+        <!--<result column="activity_parent_id" property="activityParentId" jdbcType="INTEGER"/>-->
+        <result column="limit_count" property="limitCount" jdbcType="INTEGER"/>
+        <result column="buy_count" property="buyCount" jdbcType="INTEGER"/>
+        <result column="is_recommend" property="isRecommend" jdbcType="INTEGER"/>
+        <result column="is_show" property="isShow" jdbcType="INTEGER"/>
+        <result column="is_rebuy" property="isRebuy" jdbcType="INTEGER"/>
+        <result column="is_maid" property="isMaid" jdbcType="INTEGER"/>
+        <result column="min_requirement" property="minRequirement" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="available" property="available" jdbcType="INTEGER"/>
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR"/>
+        <result column="apply_start_time" property="applyStartTime" jdbcType="TIMESTAMP"/>
+        <result column="apply_end_time" property="applyEndTime" jdbcType="TIMESTAMP"/>
+        <result column="retraining_price" property="retrainingPrice" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, activity_address, activity_start_time, activity_end_time, activity_price, is_retraining,
+    activity_theme_id, limit_count, buy_count, is_recommend, is_show,
+    is_rebuy, is_maid, min_requirement, create_time, modify_time, available, merchant_id, apply_start_time, apply_end_time, retraining_price
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="getOneByActivityIdAndCheckTime" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity
+        where id = #{id,jdbcType=INTEGER}
+        <![CDATA[ AND  DATE_FORMAT(activity_start_time, '%Y-%m-%d 00:00:00' ) <=now()]]>
+        <![CDATA[ and activity_end_time >= now()]]>
+    </select>
+    <select id="getOfflineActivityListByThemeId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity
+        where merchant_id = #{merchantId,jdbcType=VARCHAR}
+        and activity_theme_id=#{activityThemeId,jdbcType=INTEGER}
+        and available =1
+        <![CDATA[ and apply_start_time <= now()]]>
+        <![CDATA[ and apply_end_time >= now()]]>
+    </select>
+    <select id="getOfflineActivityChangeListByThemeId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity
+        where merchant_id = #{merchantId,jdbcType=VARCHAR}
+        and activity_theme_id=#{activityThemeId,jdbcType=INTEGER}
+        and available =1
+        <![CDATA[ and datediff(activity_start_time, now()) > 7 ]]>
+    </select>
+    <select id="getChangeActivityIdList" resultType="java.lang.Integer">
+        select
+        id
+        from saas_offline_activity
+        where
+        available =1
+        <![CDATA[ and datediff(activity_start_time, now()) > 7 ]]>
+    </select>
+
+    <insert id="insertSelective" parameterType="com.wegoo.model.po.OfflineActivity">
+        insert into saas_offline_activity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="activityAddress != null">
+                activity_address,
+            </if>
+            <if test="activityStartTime != null">
+                activity_start_time,
+            </if>
+            <if test="activityEndTime != null">
+                activity_end_time,
+            </if>
+            <if test="activityPrice != null">
+                activity_price,
+            </if>
+            <if test="isRetraining != null">
+                is_retraining,
+            </if>
+            <if test="activityThemeId != null">
+                activity_theme_id,
+            </if>
+            <if test="activityParentId != null">
+                activity_parent_id,
+            </if>
+            <if test="limitCount != null">
+                limit_count,
+            </if>
+            <if test="buyCount != null">
+                buy_count,
+            </if>
+            <if test="isRecommend != null">
+                is_recommend,
+            </if>
+            <if test="isShow != null">
+                is_show,
+            </if>
+            <if test="isRebuy != null">
+                is_rebuy,
+            </if>
+            <if test="isMaid != null">
+                is_maid,
+            </if>
+            <if test="minRequirement != null">
+                min_requirement,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="available != null">
+                available,
+            </if>
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+            <if test="applyStartTime != null">
+                apply_start_time,
+            </if>
+            <if test="applyEndTime != null">
+                apply_end_time,
+            </if>
+            <if test="retrainingPrice != null">
+                retraining_price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="activityAddress != null">
+                #{activityAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="activityStartTime != null">
+                #{activityStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="activityEndTime != null">
+                #{activityEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="activityPrice != null">
+                #{activityPrice,jdbcType=INTEGER},
+            </if>
+            <if test="isRetraining != null">
+                #{isRetraining,jdbcType=INTEGER},
+            </if>
+            <if test="activityThemeId != null">
+                #{activityThemeId,jdbcType=INTEGER},
+            </if>
+            <if test="activityParentId != null">
+                #{activityParentId,jdbcType=INTEGER},
+            </if>
+            <if test="limitCount != null">
+                #{limitCount,jdbcType=INTEGER},
+            </if>
+            <if test="buyCount != null">
+                #{buyCount,jdbcType=INTEGER},
+            </if>
+            <if test="isRecommend != null">
+                #{isRecommend,jdbcType=INTEGER},
+            </if>
+            <if test="isShow != null">
+                #{isShow,jdbcType=INTEGER},
+            </if>
+            <if test="isRebuy != null">
+                #{isRebuy,jdbcType=INTEGER},
+            </if>
+            <if test="isMaid != null">
+                #{isMaid,jdbcType=INTEGER},
+            </if>
+            <if test="minRequirement != null">
+                #{minRequirement,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="available != null">
+                #{available,jdbcType=INTEGER},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="applyStartTime != null">
+                #{applyStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="applyEndTime != null">
+                #{applyEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="retrainingPrice != null">
+                #{retrainingPrice,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wegoo.model.po.OfflineActivity">
+        update saas_offline_activity
+        <set>
+            <if test="activityAddress != null">
+                activity_address = #{activityAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="activityStartTime != null">
+                activity_start_time = #{activityStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="activityEndTime != null">
+                activity_end_time = #{activityEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="activityPrice != null">
+                activity_price = #{activityPrice,jdbcType=INTEGER},
+            </if>
+            <if test="isRetraining != null">
+                is_retraining = #{isRetraining,jdbcType=INTEGER},
+            </if>
+            <if test="activityThemeId != null">
+                activity_theme_id = #{activityThemeId,jdbcType=INTEGER},
+            </if>
+            <if test="activityParentId != null">
+                activity_parent_id = #{activityParentId,jdbcType=INTEGER},
+            </if>
+            <if test="limitCount != null">
+                limit_count = #{limitCount,jdbcType=INTEGER},
+            </if>
+            <if test="buyCount != null">
+                buy_count = #{buyCount,jdbcType=INTEGER},
+            </if>
+            <if test="isRecommend != null">
+                is_recommend = #{isRecommend,jdbcType=INTEGER},
+            </if>
+            <if test="isShow != null">
+                is_show = #{isShow,jdbcType=INTEGER},
+            </if>
+            <if test="isRebuy != null">
+                is_rebuy = #{isRebuy,jdbcType=INTEGER},
+            </if>
+            <if test="isMaid != null">
+                is_maid = #{isMaid,jdbcType=INTEGER},
+            </if>
+            <if test="minRequirement != null">
+                min_requirement = #{minRequirement,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="available != null">
+                available = #{available,jdbcType=INTEGER},
+            </if>
+            <if test="merchantId != null">
+                merchant_id = #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="applyStartTime != null">
+                apply_start_time = #{applyStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="applyEndTime != null">
+                apply_end_time = #{applyEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="retrainingPrice != null">
+                retraining_price = #{retrainingPrice,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

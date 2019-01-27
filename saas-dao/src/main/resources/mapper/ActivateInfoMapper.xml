@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.saasdao.mapper.ActivateInfoMapper">
+    <resultMap id="BaseResultMap" type="com.wegoo.model.po.ActivateInfo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="theme_id" property="themeId" jdbcType="INTEGER"/>
+        <result column="theme_name" property="themeName" jdbcType="VARCHAR"/>
+        <result column="theme_price" property="themePrice" jdbcType="INTEGER"/>
+        <result column="referrer" property="referrer" jdbcType="VARCHAR"/>
+        <result column="referrer_name" property="referrerName" jdbcType="VARCHAR"/>
+        <result column="referrer_phone" property="referrerPhone" jdbcType="VARCHAR"/>
+        <result column="activity_id" property="activityId" jdbcType="INTEGER"/>
+        <result column="is_used" property="isUsed" jdbcType="INTEGER"/>
+        <result column="qr_code_url" property="qrCodeUrl" jdbcType="VARCHAR"/>
+        <result column="send_msg" property="sendMsg" jdbcType="INTEGER"/>
+        <result column="activity_code" property="activityCode" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="id_card_num" property="idCardNum" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, merchant_id, phone, real_name, theme_id, theme_name, theme_price, referrer, referrer_name,
+    referrer_phone, activity_id, is_used, qr_code_url, send_msg, activity_code, remark,
+    create_time,id_card_num
+  </sql>
+    <select id="getDetailByPhone" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_activate_info
+        where phone = #{phone,jdbcType=VARCHAR}
+    </select>
+    <update id="updateIsUsedByPhone">
+        update saas_activate_info
+        set is_used =1
+        where phone =#{phone,jdbcType=VARCHAR}
+
+
+    </update>
+
+    <select id="getOneByActivityCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_activate_info
+        where activity_code = #{activityCode,jdbcType=VARCHAR}
+    </select>
+    <update id="updateIsUsedByCode">
+        update saas_activate_info
+        set is_used =1
+        where activity_code =#{activityCode,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

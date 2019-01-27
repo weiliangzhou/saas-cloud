@@ -1,0 +1,44 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8778
+spring:
+  application:
+    name: saas-zuul
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 500
+        max-wait: -1
+        min-idle: 0
+    database: 0
+zuul:
+  host:
+    connect-timeout-millis: 50000
+    socket-timeout-millis: 50000
+  routes:
+    api-a:
+      path: /api-member/**
+      service-id: saas-member
+    api-b:
+      path: /api-offlineactivity/**
+      service-id: saas-offlineactivity
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 60000
+ribbon:
+  ReadTimeout: 50000
+  ConnectTimeout: 50000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 0
+  eureka:
+    enabled: true

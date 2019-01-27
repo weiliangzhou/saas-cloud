@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.saasdao.mapper.OfflineActivityOrderMapper">
+    <resultMap id="BaseResultMap" type="com.wegoo.model.po.OfflineActivityOrder">
+        <id column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="activity_id" property="activityId" jdbcType="INTEGER"/>
+        <result column="activity_code" property="activityCode" jdbcType="VARCHAR"/>
+        <result column="activity_price" property="activityPrice" jdbcType="INTEGER"/>
+        <result column="actual_money" property="actualMoney" jdbcType="INTEGER"/>
+        <result column="order_status" property="orderStatus" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="id_card_num" property="idCardNum" jdbcType="VARCHAR"/>
+        <result column="payment_no" property="paymentNo" jdbcType="VARCHAR"/>
+        <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP"/>
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="available" property="available" jdbcType="INTEGER"/>
+        <result column="is_maid" property="isMaid" jdbcType="INTEGER"/>
+        <result column="is_retraining" property="isRetraining" jdbcType="INTEGER"/>
+        <result column="activity_theme_id" property="activityThemeId" jdbcType="INTEGER"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="change_times" property="changeTimes" jdbcType="INTEGER"/>
+        <result column="profession" property="profession" jdbcType="INTEGER"/>
+        <result column="referrer" property="referrer" jdbcType="VARCHAR"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="referrer_name" property="referrerName" jdbcType="VARCHAR"/>
+        <result column="referrer_phone" property="referrerPhone" jdbcType="VARCHAR"/>
+        <result column="brand" property="brand" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    order_no, activity_id, activity_theme_id, activity_code, activity_price, actual_money, order_status,
+    user_id, sex, phone, real_name, city, id_card_num, payment_no, payment_time, merchant_id,
+    is_maid, is_retraining, change_times, create_time, modify_time, available,  remark, profession, referrer, start_time, end_time,
+    referrer_name,referrer_phone,brand
+  </sql>
+    <select id="findOrderByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_order
+        where user_id = #{userId,jdbcType=VARCHAR}
+        and available =1
+        and order_status = 1
+        and merchant_id = #{merchantId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_order
+        where order_no = #{orderNo,jdbcType=VARCHAR}
+        and available =1
+    </select>
+    <select id="findOrderByActivityCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_order
+        where activity_code = #{activityCode,jdbcType=VARCHAR}
+        and available =1
+    </select>
+    <insert id="insertSelective" parameterType="com.wegoo.model.po.OfflineActivityOrder">
+        insert into saas_offline_activity_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="activityId != null">
+                activity_id,
+            </if>
+            <if test="activityCode != null">
+                activity_code,
+            </if>
+            <if test="activityPrice != null">
+                activity_price,
+            </if>
+            <if test="actualMoney != null">
+                actual_money,
+            </if>
+            <if test="orderStatus != null">
+                order_status,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+            <if test="idCardNum != null">
+                id_card_num,
+            </if>
+            <if test="paymentNo != null">
+                payment_no,
+            </if>
+            <if test="paymentTime != null">
+                payment_time,
+            </if>
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="available != null">
+                available,
+            </if>
+            <if test="isMaid != null">
+                is_maid,
+            </if>
+            <if test="isRetraining != null">
+                is_retraining,
+            </if>
+            <if test="activityThemeId != null">
+                activity_theme_id,
+            </if>
+            <if test="profession != null">
+                profession,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="changeTimes != null">
+                change_times,
+            </if>
+            <if test="referrer != null">
+                referrer,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="referrerName != null">
+                referrer_name,
+            </if>
+            <if test="referrerPhone != null">
+                referrer_phone,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="activityId != null">
+                #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="activityCode != null">
+                #{activityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="activityPrice != null">
+                #{activityPrice,jdbcType=INTEGER},
+            </if>
+            <if test="actualMoney != null">
+                #{actualMoney,jdbcType=INTEGER},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="idCardNum != null">
+                #{idCardNum,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentNo != null">
+                #{paymentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentTime != null">
+                #{paymentTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="available != null">
+                #{available,jdbcType=INTEGER},
+            </if>
+            <if test="isMaid != null">
+                #{isMaid,jdbcType=INTEGER},
+            </if>
+            <if test="isRetraining != null">
+                #{isRetraining,jdbcType=INTEGER},
+            </if>
+            <if test="activityThemeId != null">
+                #{activityThemeId,jdbcType=INTEGER},
+            </if>
+            <if test="profession != null">
+                #{profession,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="changeTimes != null">
+                #{changeTimes,jdbcType=INTEGER},
+            </if>
+            <if test="referrer != null">
+                #{referrer,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerName != null">
+                #{referrerName,jdbcType=VARCHAR},
+            </if>
+            <if test="referrerPhone != null">
+                #{referrerPhone,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wegoo.model.po.OfflineActivityOrder">
+        update saas_offline_activity_order
+        <set>
+            <if test="activityId != null">
+                activity_id = #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="activityCode != null">
+                activity_code = #{activityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="activityPrice != null">
+                activity_price = #{activityPrice,jdbcType=INTEGER},
+            </if>
+            <if test="actualMoney != null">
+                actual_money = #{actualMoney,jdbcType=INTEGER},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="idCardNum != null">
+                id_card_num = #{idCardNum,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentNo != null">
+                payment_no = #{paymentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentTime != null">
+                payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="merchantId != null">
+                merchant_id = #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="available != null">
+                available = #{available,jdbcType=INTEGER},
+            </if>
+            <if test="isMaid != null">
+                is_maid = #{isMaid,jdbcType=INTEGER},
+            </if>
+            <if test="isRetraining != null">
+                is_retraining = #{isRetraining,jdbcType=INTEGER},
+            </if>
+            <if test="activityThemeId != null">
+                activity_theme_id = #{activityThemeId,jdbcType=INTEGER},
+            </if>
+            <if test="profession != null">
+                profession = #{profession,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="brand != null">
+                brand = #{brand,jdbcType=VARCHAR},
+            </if>
+            <if test="changeTimes != null">
+                change_times = #{changeTimes,jdbcType=INTEGER},
+            </if>
+            <if test="referrer != null">
+                referrer = #{referrer,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where order_no = #{orderNo,jdbcType=VARCHAR}
+    </update>
+    <select id="findOrderByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        saas_offline_activity_order
+        <where>
+            <if test="orderNo != null">
+                order_no=#{orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="activityId != null">
+                AND activity_id=#{activityid,jdbcType=INTEGER}
+            </if>
+            <if test="activityCode != null">
+                AND activity_code=#{activityCode,jdbcType=VARCHAR}
+            </if>
+            <if test="activityPrice != null">
+                AND activity_price=#{activityPrice,jdbcType=INTEGER}
+            </if>
+            <if test="actualMoney != null">
+                AND actual_money=#{actualMoney,jdbcType=INTEGER}
+            </if>
+            <if test="orderStatus != null">
+                AND order_status=#{orderStatus,jdbcType=INTEGER}
+            </if>
+            <if test="userId != null">
+                AND user_id=#{userId,jdbcType=VARCHAR}
+            </if>
+            <if test="sex != null">
+                AND sex=#{sex,jdbcType=INTEGER}
+            </if>
+            <if test="phone != null">
+                AND phone like concat ( '%' ,concat( #{phone,jdbcType=VARCHAR} , '%'))
+            </if>
+            <if test="realName != null">
+                AND real_name like concat ( '%' ,concat( #{realName,jdbcType=VARCHAR} , '%'))
+            </if>
+            <if test="city != null">
+                AND city = #{city,jdbcType=VARCHAR}
+            </if>
+            <if test="idCardNum != null">
+                AND id_card_num = #{idCardNum,jdbcType=VARCHAR}
+            </if>
+            <if test="paymentNo != null">
+                AND payment_no = #{paymentNo,jdbcType=VARCHAR}
+            </if>
+            <if test="paymentTime != null">
+                AND payment_time = #{paymentTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="merchantId != null">
+                AND merchant_id=#{merchantId,jdbcType=VARCHAR}
+            </if>
+            <if test="isMaid != null">
+                AND is_maid = #{isMaid,jdbcType=INTEGER}
+            </if>
+            <if test="isRetraining != null">
+                AND is_retraining = #{isRetraining,jdbcType=INTEGER}
+            </if>
+            <if test="activityThemeId != null">
+                AND activity_theme_id = #{activityThemeId,jdbcType=INTEGER}
+            </if>
+            <if test="remark != null">
+                AND remark = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="changeTimes != null">
+                AND change_times=#{changeTimes,jdbcType=INTEGER}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="modifyTime != null">
+                AND modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="profession != null">
+                AND profession=#{profession,jdbcType=INTEGER}
+            </if>
+            <if test="referrer != null">
+                AND referrer=#{referrer,jdbcType=VARCHAR}
+            </if>
+            <if test="activityStartTime != null">
+                AND <![CDATA[ create_time >= #{activityStartTime} ]]>
+            </if>
+            <if test="activityEndTime != null">
+                AND <![CDATA[ create_time <= #{activityEndTime} ]]>
+            </if>
+
+            AND available = 1
+            AND order_status = 1
+            order by modify_time desc
+        </where>
+    </select>
+    <select id="selectOneByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_offline_activity_order
+        where order_no = #{orderNo,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getBindUserOrderCount" resultType="java.lang.Integer">
+        select count(1) from saas_offline_activity_order b
+        <where>
+            b.available = 1 and b.order_status = 1
+            <if test="userId != null and userId !=''">
+                and b.referrer = #{userId}
+            </if>
+            <if test="merchantId != null and merchantId !=''">
+                and b.merchant_id = #{merchantId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getUserOrderCount" resultType="java.lang.Integer">
+        select count(1) from saas_offline_activity_order b
+        <where>
+            b.available = 1 and b.order_status = 1
+            <if test="userId != null and userId !=''">
+                and b.user_id = #{userId}
+            </if>
+            <if test="merchantId != null and merchantId !=''">
+                and b.merchant_id = #{merchantId}
+            </if>
+        </where>
+    </select>
+</mapper>

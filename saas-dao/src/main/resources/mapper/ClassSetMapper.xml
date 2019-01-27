@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wegoo.saasdao.mapper.ClassSetMapper" >
+  <resultMap id="BaseResultMap" type="com.wegoo.model.po.ClassSet" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+    <result column="is_show" property="isShow" jdbcType="BIT" />
+    <result column="required_member_level" property="requiredMemberLevel" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="available" property="available" jdbcType="INTEGER" />
+    <result column="content_text" property="contentText" />
+    <result column="style" property="style" jdbcType="INTEGER" />
+    <result column="is_recommend" property="isRecommend" jdbcType="INTEGER" />
+    <result column="front_cover" property="frontCover" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, banner_url,content, category_id, merchant_id, is_show, required_member_level,
+    create_time, modify_time, available,content_text,style,is_recommend,front_cover,product_id
+  </sql>
+  <!--根据id获取一个套课程详情-->
+  <select id="getClassSetByClassSetId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    SELECT
+    <include refid="Base_Column_List" />
+    from
+      saas_class_set
+    where
+      id = #{id}
+  </select>
+
+  <resultMap id="AllClassResultMap" type="com.wegoo.model.vo.ClassVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="category_title" property="categoryTitle" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime"  />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+    <result column="class_type" property="classType" />
+    <result column="required_member_level" property="requiredMemberLevel" />
+    <result column="content_text" property="contentText" />
+    <result column="style" property="style" jdbcType="INTEGER" />
+    <result column="is_recommend" property="isRecommend" jdbcType="INTEGER" />
+    <result column="front_cover" property="frontCover" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+  </resultMap>
+
+  <!--查询所有的套课 和单独的节课程lsit-->
+  <select id="getClassSetList"  resultMap="AllClassResultMap">
+    SELECT
+    scs.id 	AS id,
+    scs.title AS title,
+    scc.title AS category_title,
+    scs.create_time AS create_time,
+    scs.modify_time AS modify_time,
+    scs.merchant_id AS merchantId,
+    '' as logoUrl,
+    1 AS class_type,
+    scs.required_member_level AS required_member_level,
+    scs.content_text AS content_text,
+    CASE WHEN scs.style IS NULL THEN 2 ELSE scs.style END AS style,
+    scs.is_recommend AS is_recommend,
+    scs.front_cover AS front_cover,
+    scs.product_id AS product_id
+    FROM
+    saas_class_category scc,
+    saas_class_set scs
+    WHERE
+    scc.id = scs.category_id
+    AND scc.available = 1
+    AND scs.available = 1
+    AND scs.merchant_id =#{merchantId}
+    AND scs.is_show = 1
+    <if test="queryType == 0">
+      AND scs.is_recommend = 1
+    </if>
+    ORDER BY modify_time DESC
+  </select>
+</mapper>
